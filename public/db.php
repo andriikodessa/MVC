@@ -1,6 +1,7 @@
 <?php
 
 require_once '../vendor/autoload.php';
+require_once '../config/dotenv.php';
 require_once '../config/eloquent.php';
 
 /** @var $capsule */
@@ -21,6 +22,7 @@ $blueprint->text('body');
 $blueprint->foreignId('category_id');
 $blueprint->timestamps();
 $blueprint->create();
+$blueprint->foreign('user_id')->references('id')->on('users');
 $blueprint->foreign('category_id')->references('id')->on('categories');
 $blueprint->build($capsule->getConnection(), new Illuminate\Database\Schema\Grammars\MySqlGrammar());
 
@@ -37,7 +39,7 @@ $blueprint->id();
 $blueprint->foreignId('post_id');
 $blueprint->foreignId('tag_id');
 $blueprint->timestamps();
-$blueprint->create();
 $blueprint->foreign('post_id')->references('id')->on('posts')->cascadeOnDelete()->cascadeOnUpdate();
 $blueprint->foreign('tag_id')->references('id')->on('tags')->cascadeOnDelete()->cascadeOnUpdate();
+$blueprint->create();
 $blueprint->build($capsule->getConnection(), new Illuminate\Database\Schema\Grammars\MySqlGrammar());
